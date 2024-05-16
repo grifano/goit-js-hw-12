@@ -2,7 +2,7 @@
 
 # Java Script
 
-## Module 11: HTTP Request
+## Module 12: Async/await, Axios, Pagination
 
 <img src="./src/img/screenshot.webp" alt="java script logo" width="50%"/>
 
@@ -12,6 +12,7 @@
 - Submit search queries.
 - Show loading indicators for feedback for users
 - View enlarged images in a modal.
+- Load more images
 
 ---
 
