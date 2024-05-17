@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="shortcut icon"
+      href="https://upload.wikimedia.org/wikipedia/commons/9/99/Unofficial_JavaScript_logo_2.svg"
+      type="image/x-icon"
+    />
+    
+    <title>Homework 12</title>
+    <script type="module" crossorigin src="/goit-js-hw-12/commonHelpers.js"></script>
+    <link rel="modulepreload" crossorigin href="/goit-js-hw-12/assets/vendor-09d7c26e.js">
+    <link rel="stylesheet" href="/goit-js-hw-12/assets/vendor-1cd1f9d9.css">
+    <link rel="stylesheet" href="/goit-js-hw-12/assets/index-26376d93.css">
+  </head>
+  <body>
+    <header>
+      <a
+        href="https://goit.global/ua/"
+        rel="noopener noreferrer"
+        aria-label="goit website"
+      >
+        <img
+          src="https://goit.global/mx/assets/images/logo-goit.svg"
+          width="160"
+          alt="goit logo"
+        />
+      </a>
+      <h1 class="page-title">Homework 12: Image Searching</h1>
+    </header>
+    <main>
+      <section class="gallery">
+        <div class="container">
+          <div class="search-bar">
+            <form class="search-bar-form">
+              <label class="search-label">
+                <input
+                  type="text"
+                  id="search-bar"
+                  placeholder="Search images..."
+                />
+                <div
+                  class="search-tooltip"
+                  data-text="Provide your keyword for searching without spaces, ex: dog, cat, etc."
+                >
+                  <svg class="search-tooltip-icon" width="18" height="18">
+                    <use href="/goit-js-hw-12/assets/icons-491580d2.svg#icon-help"></use>
+                  </svg>
+                </div>
+              </label>
+              <button type="submit" class="search-bar-button is-disable">
+                Search
+              </button>
+            </form>
+          </div>
+          <div class="result-wrap">
+            <ul class="gallery-list"></ul>
+            <button type="button" class="load-more-button is-hidden">
+              Load more
+            </button>
+          </div>
+        </div>
+      </section>
+    </main>
+    <footer>
+      <ul>
+        <li>
+          <a
+            href="https://grifano.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="serhii orlenko website"
+            ><img
+              src="https://upload.wikimedia.org/wikipedia/commons/c/c4/Globe_icon.svg"
+              width="48"
+              alt="globe"
+          /></a>
+        </li>
+        <li>
+          <a
+            href="https://app.uxcel.com/ux/EE4PBID94EEH"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="serhii orlenko uxcel profile"
+            ><img
+              src="https://images.g2crowd.com/uploads/product/image/large_detail/large_detail_ba51b2628d04b9c628af50b178cb209e/uxcel.png"
+              width="48"
+              alt="uxcel logo"
+          /></a>
+        </li>
+        <li>
+          <a
+            href="https://twitter.com/OrlenkoSerhii"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="serhii orlenko twitter x"
+            ><img
+              src="https://upload.wikimedia.org/wikipedia/commons/c/c6/X_Twitter_icon.svg"
+              width="48"
+              alt="X_Twitter_icon"
+          /></a>
+        </li>
+      </ul>
+    </footer>
+    
+  </body>
+</html>
