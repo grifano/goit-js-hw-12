@@ -23,7 +23,7 @@ const refs = {
 let userSearchRequestValue = '';
 const searchParams = {
   pageCounter: 1,
-  per_page: 110,
+  per_page: 15,
 };
 let totalPages = 0;
 
