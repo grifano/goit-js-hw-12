@@ -1,14 +1,14 @@
 import './js/pixabay-api';
 import { fetchImageData } from './js/pixabay-api';
 import './js/render-functions';
+import SimpleLightbox from 'simplelightbox';
+import 'simplelightbox/dist/simple-lightbox.min.css';
 import {
-  getUserValue,
   updateUi,
   showLoader,
   showLoadMoreButton,
   showNotification,
   createMarkup,
-  addLightbox,
 } from './js/render-functions';
 
 const refs = {
@@ -19,6 +19,15 @@ const refs = {
   galleryList: document.querySelector('.gallery-list'),
 };
 
+const lightbox = new SimpleLightbox('.image-card-link', {
+  caption: true,
+  captionSelector: 'img',
+  captionType: 'attr',
+  captionsData: 'alt',
+  captionDelay: 250,
+  captionPosition: 'bottom',
+});
+
 // Search params
 let userSearchRequestValue = '';
 const searchParams = {
@@ -27,52 +36,67 @@ const searchParams = {
 };
 let totalPages = 0;
 
-// Smooth Scroll to the top of the result list
-const smoothScroll = () => {
-  const imageCard = refs.galleryList.querySelector(
-    '.image-card-details-list-item'
-  );
-  if (imageCard) {
-    window.scrollTo({
-      top: refs.galleryList.offsetTop - 20, // Scroll to the top of the gallery list
-      left: 0,
-      behavior: 'smooth',
-    });
+// Add EventListners
+refs.searchForm.addEventListener('submit', onSearchFormSubmit);
+refs.loadMoreButton.addEventListener('click', onLoadMoreButtonClick);
+refs.searchInput.addEventListener('change', onSearchInputChange);
+
+// *** Functions ***
+// When user provide query, set submit button active
+function onSearchInputChange(event) {
+  const value = event.target.value.trim();
+  if (value !== '') {
+    refs.searchButton.classList.remove('is-disable');
+  } else {
+    refs.searchButton.classList.add('is-disable');
   }
-
-  console.log(refs.galleryList.offsetTop);
-};
-// Get search query from user input
-refs.searchInput.addEventListener('input', event => {
-  userSearchRequestValue = getUserValue(event);
-});
-
+}
 // Submit form to fetch data from server and render result
 async function onSearchFormSubmit(event) {
   event.preventDefault();
-
   const form = event.currentTarget;
+
+  // Reset page counter and clear result list
   searchParams.pageCounter = 1;
+  refs.galleryList.innerHTML = '';
+
+  // Get user query from input
+  userSearchRequestValue = event.target.elements.searchQuery.value.trim();
+
+  if (userSearchRequestValue === '') {
+    showNotification('Search query can not be empty!');
+    return;
+  }
 
   try {
     showLoader(true, refs.searchForm);
 
-    const response = await fetchImageData(userSearchRequestValue, searchParams);
-    const images = response.hits;
-    const totalImages = response.totalHits;
+    const { hits, totalHits } = await fetchImageData(
+      userSearchRequestValue,
+      searchParams
+    );
 
     // Get total pages
-    totalPages = Math.ceil(totalImages / searchParams.per_page);
+    totalPages = Math.ceil(totalHits / searchParams.per_page);
 
+    // Hide button when rich end of collection
+    if (searchParams.pageCounter >= totalPages) {
+      showLoadMoreButton(false);
+      refs.loadMoreButton.removeEventListener('click', onLoadMoreButtonClick);
+    } else {
+      showLoadMoreButton(true);
+    }
     // Render images, hide loader, and show load more button
-    updateUi(images);
+    updateUi(hits);
     showLoader(false, refs.searchForm);
-    showLoadMoreButton(true);
+    lightbox.refresh();
   } catch (error) {
     showNotification(error.message);
     showLoader(false, refs.searchForm);
   }
 
+  // Make submit button disable after form submit
+  refs.searchButton.classList.add('is-disable');
   form.reset();
 }
 // Load more images when user click "load more" button
@@ -84,14 +108,16 @@ async function onLoadMoreButtonClick() {
 
     const response = await fetchImageData(userSearchRequestValue, searchParams);
     const images = response.hits;
-    refs.galleryList.insertAdjacentHTML('afterbegin', createMarkup(images));
-    // Fire function that create lightbox after image-cards was rendered
-    addLightbox();
+    refs.galleryList.insertAdjacentHTML('beforeend', createMarkup(images));
+    lightbox.refresh();
 
     // Hide button when rich end of collection
     if (searchParams.pageCounter >= totalPages) {
       showLoadMoreButton(false);
-      loadMoreButton.removeEventListener('click', onLoadMoreButtonClick);
+      refs.loadMoreButton.removeEventListener('click', onLoadMoreButtonClick);
+      showNotification(
+        `We're sorry, but you've reached the end of search results.`
+      );
     }
 
     // Run smooth scroll function to scroll smooth on top of the list result
@@ -103,6 +129,21 @@ async function onLoadMoreButtonClick() {
     showNotification(error.message);
   }
 }
+// Smooth Scroll to the top of the result list
+function smoothScroll() {
+  const imageCard = refs.galleryList.querySelector(
+    '.image-card-details-list-item'
+  );
+  const imageCardHeight = imageCard.getBoundingClientRect().height;
+  const viewportHeight = window.viewportHeight;
+  const scrollHeight = imageCardHeight * 20;
+  console.log(scrollHeight);
 
-refs.searchForm.addEventListener('submit', onSearchFormSubmit);
-refs.loadMoreButton.addEventListener('click', onLoadMoreButtonClick);
+  if (imageCard) {
+    window.scrollBy({
+      top: scrollHeight,
+      left: 0,
+      behavior: 'smooth',
+    });
+  }
+}

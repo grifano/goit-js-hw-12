@@ -1,24 +1,8 @@
 import iziToast from 'izitoast';
 import 'izitoast/dist/css/iziToast.min.css';
-import SimpleLightbox from 'simplelightbox';
-import 'simplelightbox/dist/simple-lightbox.min.css';
 
-const button = document.querySelector('button');
 const buttonLoadMore = document.querySelector('.load-more-button');
 const gallery = document.querySelector('.gallery-list');
-
-// Function addLightbox
-export function addLightbox() {
-  const lightbox = new SimpleLightbox('.image-card-link', {
-    caption: true,
-    captionSelector: 'img',
-    captionType: 'attr',
-    captionsData: 'alt',
-    captionDelay: 250,
-    captionPosition: 'bottom',
-  });
-  lightbox.refresh();
-}
 
 // Function: show notification
 export function showNotification(msg) {
@@ -35,7 +19,7 @@ export function showNotification(msg) {
     message: msg,
     class: 'error-notification',
     timeout: 5000,
-    iconUrl: '/img/octagon.svg',
+    iconUrl: './img/octagon.svg',
     titleColor: '#fff',
     position: 'topRight',
     backgroundColor: '#EF4040',
@@ -92,26 +76,7 @@ export function updateUi(arrayImages) {
       'Sorry, there are no images matching your search query. Please try again!'
     );
   }
-  gallery.innerHTML = '';
   gallery.insertAdjacentHTML('afterbegin', createMarkup(arrayImages));
-
-  // Fire function that create lightbox after image-cards was rendered
-  addLightbox();
-}
-
-// Check user input
-export function getUserValue(event) {
-  const value = event.target.value;
-
-  if (value && value.trim().length > 0) {
-    button.classList.remove('is-disable');
-    button.removeAttribute('disabled', '');
-    return value;
-  } else {
-    button.classList.add('is-disable');
-    button.setAttribute('disabled', '');
-  }
-  return;
 }
 
 // Show Loader
