@@ -19,7 +19,7 @@ export function showNotification(msg) {
     message: msg,
     class: 'error-notification',
     timeout: 5000,
-    iconUrl: '/img/octagon.svg',
+    iconUrl: '/image/octagon.svg',
     titleColor: '#fff',
     position: 'topRight',
     backgroundColor: '#EF4040',

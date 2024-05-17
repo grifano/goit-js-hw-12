@@ -4,7 +4,7 @@
 
 ## Module 12: Async/await, Axios, Pagination
 
-<img src="./src/img/screenshot.webp" alt="java script logo" width="50%"/>
+<img src="./src/image/screenshot.webp" alt="java script logo" width="50%"/>
 
 ### Users should be able:
 
