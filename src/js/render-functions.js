@@ -4,8 +4,8 @@ import SimpleLightbox from 'simplelightbox';
 import 'simplelightbox/dist/simple-lightbox.min.css';
 
 const button = document.querySelector('button');
+const buttonLoadMore = document.querySelector('.load-more-button');
 const gallery = document.querySelector('.gallery-list');
-const loader = document.querySelector('.loader');
 
 // Function addLightbox
 export function addLightbox() {
@@ -45,14 +45,9 @@ export function showNotification(msg) {
   });
 }
 
-// Update UI
-export function updateUi(arrayImages) {
-  if (arrayImages.length <= 0) {
-    showNotification(
-      'Sorry, there are no images matching your search query. Please try again!'
-    );
-  }
-  const markup = arrayImages
+// Create markup from array
+export function createMarkup(array) {
+  return array
     .map(
       ({
         webformatURL,
@@ -88,8 +83,17 @@ export function updateUi(arrayImages) {
       }
     )
     .join('');
+}
+
+// Update UI
+export function updateUi(arrayImages) {
+  if (arrayImages.length <= 0) {
+    showNotification(
+      'Sorry, there are no images matching your search query. Please try again!'
+    );
+  }
   gallery.innerHTML = '';
-  gallery.insertAdjacentHTML('afterbegin', markup);
+  gallery.insertAdjacentHTML('afterbegin', createMarkup(arrayImages));
 
   // Fire function that create lightbox after image-cards was rendered
   addLightbox();
@@ -111,10 +115,21 @@ export function getUserValue(event) {
 }
 
 // Show Loader
-export function showLoader(status) {
-  if (status) {
-    loader.classList.add('is-active');
+export function showLoader(status, siblingElement) {
+  const loaderMarkup = '<div class="loader"></div>';
+
+  if (status && !document.querySelector('.loader')) {
+    siblingElement.insertAdjacentHTML('afterend', loaderMarkup);
   } else {
-    loader.classList.remove('is-active');
+    document.querySelector('.loader').remove();
+  }
+}
+
+// Show button load-more
+export function showLoadMoreButton(status) {
+  if (status) {
+    buttonLoadMore.classList.remove('is-hidden');
+  } else {
+    buttonLoadMore.classList.add('is-hidden');
   }
 }

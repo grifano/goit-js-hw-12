@@ -107,6 +107,7 @@ input.is-disable {
   color: #808080;
 }
 button {
+  display: inline-block;
   border-radius: 8px;
   padding: 8px 16px;
   min-width: 75px;
@@ -126,6 +127,13 @@ button.is-disable {
 }
 
 /*** Homework Styles ***/
+.result-wrap {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 32px;
+  align-items: center;
+}
 .search-bar {
   display: flex;
   flex-direction: column;
@@ -137,7 +145,7 @@ button.is-disable {
   top: 20px;
 }
 .search-bar-form {
-  overflow: hidden;
+  /* overflow: hidden; */
 
   padding: 12px;
   border-radius: 12px;
@@ -161,6 +169,9 @@ input {
 .search-bar-button {
   flex-shrink: 0;
 }
+.load-more-button.is-hidden {
+  display: none;
+}
 .search-tooltip {
   position: absolute;
   width: 18px;
@@ -174,9 +185,9 @@ input {
   &:before {
     content: attr(data-text); /* get text from parent data-text attribute */
     position: absolute;
-    top: 50%;
+    bottom: 0;
     transform: translateY(-50%);
-    left: 100%;
+    right: 0;
     margin-left: 15px;
     width: 250px;
     padding: 10px;
@@ -276,14 +287,16 @@ input {
 
 /*** Loader Custom styles ***/
 .loader {
+  padding: 8px;
+  border-radius: 22px;
+  background-color: #fff;
   width: 120px;
   height: 22px;
   border-radius: 20px;
   color: #ee7331;
-  border: 2px solid;
+  border: 2px solid #ee7331;
   position: relative;
-  display: none;
-  &::before {
+  &::after {
     content: '';
     position: absolute;
     margin: 2px;
@@ -291,9 +304,6 @@ input {
     border-radius: inherit;
     background: currentColor;
     animation: l6 2s infinite;
-  }
-  &.is-active {
-    display: block;
   }
 }
 @keyframes l6 {

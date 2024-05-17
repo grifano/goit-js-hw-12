@@ -15,6 +15,7 @@
   "author": "Serhii Orlenko <sorlenk@gmail.com>",
   "license": "ISC",
   "dependencies": {
+    "axios": "^1.6.8",
     "flatpickr": "^4.6.13",
     "izitoast": "^1.4.0",
     "simplelightbox": "^2.14.3",

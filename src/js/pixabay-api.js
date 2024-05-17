@@ -1,10 +1,28 @@
-export function fetchImageData(serachRequest) {
-  const apiRequestURL = `https://pixabay.com/api/?key=20858658-55430aeeed6a37ac1f56d3c0c&q=${serachRequest}&image_type=photo&orientation=horizontal&safesearch=true`;
+import axios from 'axios';
 
-  return fetch(apiRequestURL).then(response => {
-    if (!response.ok) {
-      return;
-    }
-    return response.json();
+axios.defaults.baseURL = 'https://pixabay.com';
+
+export const fetchImageData = async (
+  serachRequest,
+  { pageCounter, per_page }
+) => {
+  const searchParams = {
+    key: '20858658-55430aeeed6a37ac1f56d3c0c',
+    q: serachRequest,
+    page: pageCounter,
+    per_page,
+    image_type: 'photo',
+    orientation: 'horizontal',
+    safesearch: 'true',
+  };
+
+  const response = await axios('/api/', {
+    params: searchParams,
   });
-}
+
+  if (response.status === 'error') {
+    throw new Error(response.code);
+  }
+
+  return response.data;
+};
